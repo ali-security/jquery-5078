@@ -35,6 +35,9 @@ jobs:
               cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
               chmod +x node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
               
+              echo 'HEALTH CHECK: Testing if PhantomJS can actually boot...' &&
+              node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs --version || exit 1 &&
+              
               npm test &&
               npm pack
             "
