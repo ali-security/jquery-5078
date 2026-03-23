@@ -23,7 +23,7 @@ jobs:
       - name: Build and Test in Legacy Node 0.10 Container
         run: |
           echo "Starting PHP built-in server..."
-          php -S 127.0.0.1:8000 -t . &
+          PHP_CLI_SERVER_WORKERS=10 php -S 127.0.0.1:8000 -t . &
           sleep 3
 
           docker run --rm --net host \
