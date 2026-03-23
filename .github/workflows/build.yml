@@ -24,12 +24,15 @@ jobs:
               npm install &&
               npm install grunt-contrib-qunit --save-dev &&
               
-              echo 'Manually injecting PhantomJS to bypass dead 2014 links...' &&
-              wget -qO phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releases/download/v1.9.19/phantomjs-1.9.19-linux-x86_64.tar.bz2 &&
+              echo 'Manually injecting PhantomJS to bypass dead 2014 links and Docker root blocks...' &&
+              wget -qO phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releases/download/v1.9.19/phantomjs-1.9.8-linux-x86_64.tar.bz2 &&
               tar -xjf phantomjs.tar.bz2 &&
-              mkdir -p node_modules/phantomjs/lib/phantom/bin &&
-              cp phantomjs-1.9.19-linux-x86_64/bin/phantomjs node_modules/phantomjs/lib/phantom/bin/phantomjs &&
-              chmod +x node_modules/phantomjs/lib/phantom/bin/phantomjs &&
+              
+              mkdir -p node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin &&
+              cp phantomjs-1.9.8-linux-x86_64/bin/phantomjs node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
+              chmod +x node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
+              
+              ln -sf /app/phantomjs-1.9.8-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs &&
               
               npm test &&
               npm pack
