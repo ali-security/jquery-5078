@@ -14,8 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-    
-      - name: Build in Legacy Node 0.10 Container
+      - name: Build and Test in Legacy Node 0.10 Container
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/app \
@@ -24,6 +23,7 @@ jobs:
             node:0.10 bash -c "
               npm config set registry https://:2014-05-22T16%3A14%3A57.222000Z@time-machines-npm.sealsecurity.io/ &&          
               npm install &&
+              npm install grunt-contrib-qunit@0.5.2 --save-dev &&
               npm test &&
               npm pack
             "
