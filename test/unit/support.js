@@ -26,7 +26,11 @@ if ( jQuery.css ) {
 		};
 		ok( okValue[ color ], "color was not reset (" + color + ")" );
 
-		// deepEqual( jQuery.extend( {}, support ), computedSupport, "Same support properties" );
+		// ignoring this test
+		delete support.boxSizingReliable;
+        delete computedSupport.boxSizingReliable;
+
+		deepEqual( jQuery.extend( {}, support ), computedSupport, "Same support properties" );
 	});
 }
 
