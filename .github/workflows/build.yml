@@ -20,18 +20,13 @@ jobs:
             -v ${{ github.workspace }}:/app \
             -w /app \
             node:0.10 bash -c "
-              echo 'deb http://archive.debian.org/debian/ jessie main' > /etc/apt/sources.list &&
-              echo 'Acquire::Check-Valid-Until false;' > /etc/apt/apt.conf.d/10-nocheckvalid &&
-              apt-get update -y &&
-              apt-get install -y bzip2 libfontconfig1 wget &&
-              
               npm config set registry https://:2014-05-22T16%3A14%3A57.222000Z@time-machines-npm.sealsecurity.io/ &&          
               npm install &&
               npm install grunt-contrib-qunit --save-dev &&
               
               echo 'Manually injecting PhantomJS to bypass dead 2014 links...' &&
-              wget -q https://github.com/Medium/phantomjs/releases/download/v1.9.19/phantomjs-1.9.19-linux-x86_64.tar.bz2 &&
-              tar -xjf phantomjs-1.9.19-linux-x86_64.tar.bz2 &&
+              wget -qO phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releases/download/v1.9.19/phantomjs-1.9.19-linux-x86_64.tar.bz2 &&
+              tar -xjf phantomjs.tar.bz2 &&
               mkdir -p node_modules/phantomjs/lib/phantom/bin &&
               cp phantomjs-1.9.19-linux-x86_64/bin/phantomjs node_modules/phantomjs/lib/phantom/bin/phantomjs &&
               chmod +x node_modules/phantomjs/lib/phantom/bin/phantomjs &&
