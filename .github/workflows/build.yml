@@ -14,6 +14,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download PhantomJS on Modern Host
+        run: |
+          echo "Downloading PhantomJS 2.1.1..."
+          wget -qO phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releases/download/v2.1.1/phantomjs-2.1.1-linux-x86_64.tar.bz2
+          tar -xjf phantomjs.tar.bz2
+
       - name: Build and Test in Legacy Node 0.10 Container
         run: |
           docker run --rm \
@@ -24,12 +30,9 @@ jobs:
               npm install &&
               npm install grunt-contrib-qunit --save-dev &&
               
-              echo 'Manually injecting PhantomJS to bypass dead 2014 links and Docker root blocks...' &&
-              wget -qO phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releases/download/v1.9.19/phantomjs-1.9.19-linux-x86_64.tar.bz2 &&
-              tar -xjf phantomjs.tar.bz2 &&
-              
+              echo 'Injecting pre-downloaded PhantomJS to bypass Docker root blocks...' &&
               mkdir -p node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin &&
-              cp phantomjs-1.9.19-linux-x86_64/bin/phantomjs node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
+              cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
               chmod +x node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs &&
               
               npm test &&
