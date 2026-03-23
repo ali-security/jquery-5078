@@ -22,7 +22,11 @@ jobs:
 
       - name: Build and Test in Legacy Node 0.10 Container
         run: |
-          docker run --rm \
+          echo "Starting PHP built-in server..."
+          php -S 127.0.0.1:8000 -t . &
+          sleep 3
+
+          docker run --rm --net host \
             -v ${{ github.workspace }}:/app \
             -w /app \
             node:0.10 bash -c "
@@ -37,11 +41,6 @@ jobs:
               
               echo 'HEALTH CHECK: Testing if PhantomJS can actually boot...' &&
               node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs --version || exit 1 &&
-              
-              echo 'Starting HTTP server for tests...' &&
-              npm install -g http-server &&
-              (http-server -p 8000 -a 127.0.0.1 &) &&
-              sleep 3 &&
               
               ./node_modules/.bin/grunt qunit --verbose &&
               npm test &&
