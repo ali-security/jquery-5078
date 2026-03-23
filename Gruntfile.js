@@ -74,6 +74,7 @@ module.exports = function( grunt ) {
 			pkg: {
 				src: [ "package.json" ]
 			},
+
 			bower: {
 				src: [ "bower.json" ]
 			}
@@ -81,7 +82,8 @@ module.exports = function( grunt ) {
 		jshint: {
 			all: {
 				src: [
-					"src/**/*.js", "Gruntfile.js", "test/**/*.js", "build/tasks/*", "build/{bower-install,release-notes,release}.js"
+					"src/**/*.js", "Gruntfile.js", "test/**/*.js", "build/tasks/*",
+					"build/{bower-install,release-notes,release}.js"
 				],
 				options: {
 					jshintrc: true
@@ -103,16 +105,6 @@ module.exports = function( grunt ) {
 		testswarm: {
 			tests: "ajax attributes callbacks core css data deferred dimensions effects event manipulation offset queue selector serialize support traversing".split( " " )
 		},
-		
-		// ADDED: The headless QUnit test runner
-		qunit: {
-			all: {
-				options: {
-					urls: [ "http://127.0.0.1:8000/test/index.html" ]
-				}
-			}
-		},
-
 		watch: {
 			files: [ "<%= jshint.all.src %>" ],
 			tasks: "dev"
@@ -143,7 +135,7 @@ module.exports = function( grunt ) {
 		}
 	});
 
-	// Load grunt tasks from NPM packages (this automatically loads grunt-contrib-qunit!)
+	// Load grunt tasks from NPM packages
 	require( "load-grunt-tasks" )( grunt );
 
 	// Integrate jQuery specific tasks
@@ -155,6 +147,6 @@ module.exports = function( grunt ) {
 	// Short list as a high frequency watch task
 	grunt.registerTask( "dev", [ "build:*:*", "lint" ] );
 
-	// Default grunt (ADDED 'qunit' to the end)
-	grunt.registerTask( "default", [ "jsonlint", "dev", "uglify", "dist:*", "compare_size", "qunit" ] );
+	// Default grunt
+	grunt.registerTask( "default", [ "jsonlint", "dev", "uglify", "dist:*", "compare_size" ] );
 };
