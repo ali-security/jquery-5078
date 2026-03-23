@@ -38,8 +38,13 @@ jobs:
               echo 'HEALTH CHECK: Testing if PhantomJS can actually boot...' &&
               node_modules/grunt-contrib-qunit/node_modules/grunt-lib-phantomjs/node_modules/phantomjs/lib/phantom/bin/phantomjs --version || exit 1 &&
               
-              # # ./node_modules/.bin/grunt qunit --verbose &&
-              # npm test || echo "skipping test" &&
+              echo 'Starting HTTP server for tests...' &&
+              npm install -g http-server &&
+              (http-server -p 8000 -a 127.0.0.1 &) &&
+              sleep 3 &&
+              
+              ./node_modules/.bin/grunt qunit --verbose &&
+              npm test &&
               npm pack
             "
 

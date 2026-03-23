@@ -106,7 +106,11 @@ module.exports = function( grunt ) {
 		
 		// ADDED: The headless QUnit test runner
 		qunit: {
-			all: [ "test/index.html" ]
+			all: {
+				options: {
+					urls: [ "http://127.0.0.1:8000/test/index.html" ]
+				}
+			}
 		},
 
 		watch: {
