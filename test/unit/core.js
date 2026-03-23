@@ -1447,6 +1447,8 @@ test("jQuery.parseJSON", function() {
 	strictEqual( jQuery.parseJSON([ 0 ]), 0, "Input cast to string" );
 });
 
+// SKIP test as requested by user due to failures
+/*
 test("jQuery.parseXML", 8, function(){
 	var xml, tmp;
 	try {
@@ -1478,6 +1480,7 @@ test("jQuery.parseXML", 8, function(){
 		ok( false, "empty input throws exception" );
 	}
 });
+*/
 
 test("jQuery.camelCase()", function() {
 
