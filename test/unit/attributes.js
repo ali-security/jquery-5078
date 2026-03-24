@@ -1473,3 +1473,22 @@ test( "Insignificant white space returned for $(option).val() (#14858)", functio
 	val = jQuery( "<option>  test  </option>" ).val();
 	equal( val.length, 4, "insignificant white-space returned for value" );
 });
+
+test( "non-lowercase boolean attribute getters should not crash", function() {
+	expect( 3 );
+
+	var elem = jQuery( "<input checked required autofocus type='checkbox'>" );
+
+	jQuery.each( {
+		checked: "Checked",
+		required: "requiRed",
+		autofocus: "AUTOFOCUS"
+	}, function( lowercased, original ) {
+		try {
+			equal( elem.attr( original ), lowercased,
+				"The '" + original + "' attribute getter should return the lowercased name" );
+		} catch ( e ) {
+			ok( false, "The '" + original + "' attribute getter threw" );
+		}
+	} );
+});
