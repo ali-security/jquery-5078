@@ -22,6 +22,7 @@ jobs:
             node:0.10 bash -c "
               npm config set registry https://:2014-05-22T16%3A14%3A57.222000Z@time-machines-npm.sealsecurity.io/ &&          
               npm install &&
+              grunt dev --force &&
               npm pack
             "
 
