@@ -8,6 +8,8 @@ define([
 // context (optional): If specified, the fragment will be created in this context, defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
 jQuery.parseHTML = function( data, context, keepScripts ) {
+	var parsed, scripts, base;
+
 	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
@@ -22,15 +24,15 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		// collapse sibling forms: the second one becomes a child of the first one.
 		// Because of that, this security measure has to be disabled in Safari 8.
 		// https://bugs.webkit.org/show_bug.cgi?id=137337
-		support.createHTMLDocument = ( function() {
-		var body = document.implementation.createHTMLDocument( "" ).body;
-		body.innerHTML = "<form></form><form></form>";
-		return body.childNodes.length === 2;
-	} )();
+		jQuery.support.createHTMLDocument = ( function() {
+			var body = document.implementation.createHTMLDocument( "" ).body;
+			body.innerHTML = "<form></form><form></form>";
+			return body.childNodes.length === 2;
+		} )();
 
 		// Stop scripts or inline event handlers from being executed immediately
 		// by using document.implementation
-		if ( support.createHTMLDocument ) {
+		if ( jQuery.support.createHTMLDocument ) {
 			context = document.implementation.createHTMLDocument( "" );
 
 			// Set the base href for the created document
@@ -44,8 +46,8 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		}
 	}
 
-	var parsed = rsingleTag.exec( data ),
-		scripts = !keepScripts && [];
+	parsed = rsingleTag.exec( data );
+	scripts = !keepScripts && [];
 
 	// Single tag
 	if ( parsed ) {
